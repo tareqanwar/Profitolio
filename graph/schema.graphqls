@@ -1,28 +1,90 @@
-# GraphQL schema example
-#
-# https://gqlgen.com/getting-started/
-
-type Todo {
-  id: ID!
-  text: String!
-  done: Boolean!
-  user: User!
+input AddAssetToPortfolioInput {
+  clientMutationId: String
+  name: String!
+  portfolioId: ID!
+  symbol: String!
 }
 
-type User {
-  id: ID!
+type AddAssetToPortfolioPayload {
+  asset: PortfolioAsset
+  clientMutationId: String
+  errors: [String!]!
+}
+
+input AddPortfolioTransactionInput {
+  clientMutationId: String
+  fee: String!
+  notes: String
+  portfolioAssetId: ID!
+  price: String!
+  quantity: String!
+  transactionType: TransactionTypeEnum!
+}
+
+type AddPortfolioTransactionPayload {
+  clientMutationId: String
+  errors: [String!]!
+  transaction: PortfolioTransaction
+}
+
+
+input CreatePortfolioInput {
+  clientMutationId: String
   name: String!
 }
 
-type Query {
-  todos: [Todo!]!
-}
-
-input NewTodo {
-  text: String!
-  userId: String!
+type CreatePortfolioPayload {
+  clientMutationId: String
+  errors: [String!]!
+  portfolio: Portfolio
 }
 
 type Mutation {
-  createTodo(input: NewTodo!): Todo!
+  addAssetToPortfolio(
+    input: AddAssetToPortfolioInput!
+  ): AddAssetToPortfolioPayload
+
+  addPortfolioTransaction(
+    input: AddPortfolioTransactionInput!
+  ): AddPortfolioTransactionPayload
+
+  createPortfolio(
+    input: CreatePortfolioInput!
+  ): CreatePortfolioPayload
+}
+
+type Portfolio {
+  id: ID!
+  name: String!
+  portfolioAssets: [PortfolioAsset!]!
+}
+
+type PortfolioAsset {
+  id: ID!
+  name: String!
+  portfolio: Portfolio!
+  portfolioId: ID!
+  portfolioTransactions: [PortfolioTransaction!]!
+  symbol: String!
+}
+
+type PortfolioTransaction {
+  fee: Float!
+  id: ID!
+  notes: String
+  portfolioAsset: PortfolioAsset!
+  portfolioAssetId: ID!
+  price: Float!
+  quantity: Float!
+  transactionType: TransactionTypeEnum!
+}
+
+type Query {
+  fetchPortfolio(id: ID!): Portfolio
+  fetchPortfolios: [Portfolio!]!
+}
+
+enum TransactionTypeEnum {
+  BUY
+  SELL
 }
