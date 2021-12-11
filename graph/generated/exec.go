@@ -425,45 +425,9 @@ func (ec *executionContext) introspectType(name string) (*introspection.Type, er
 }
 
 var sources = []*ast.Source{
-	{Name: "graph/schema.graphqls", Input: `input AddAssetToPortfolioInput {
-  clientMutationId: String
-  name: String!
-  portfolioId: ID!
-  symbol: String!
-}
-
-type AddAssetToPortfolioPayload {
-  asset: PortfolioAsset
-  clientMutationId: String
-  errors: [String!]!
-}
-
-input AddPortfolioTransactionInput {
-  clientMutationId: String
-  fee: String!
-  notes: String
-  portfolioAssetId: ID!
-  price: String!
-  quantity: String!
-  transactionType: TransactionTypeEnum!
-}
-
-type AddPortfolioTransactionPayload {
-  clientMutationId: String
-  errors: [String!]!
-  transaction: PortfolioTransaction
-}
-
-
-input CreatePortfolioInput {
-  clientMutationId: String
-  name: String!
-}
-
-type CreatePortfolioPayload {
-  clientMutationId: String
-  errors: [String!]!
-  portfolio: Portfolio
+	{Name: "graph/schema.graphqls", Input: `type Query {
+  fetchPortfolio(id: ID!): Portfolio
+  fetchPortfolios: [Portfolio!]!
 }
 
 type Mutation {
@@ -478,6 +442,11 @@ type Mutation {
   createPortfolio(
     input: CreatePortfolioInput!
   ): CreatePortfolioPayload
+}
+
+enum TransactionTypeEnum {
+  BUY
+  SELL
 }
 
 type Portfolio {
@@ -506,16 +475,45 @@ type PortfolioTransaction {
   transactionType: TransactionTypeEnum!
 }
 
-type Query {
-  fetchPortfolio(id: ID!): Portfolio
-  fetchPortfolios: [Portfolio!]!
+input CreatePortfolioInput {
+  clientMutationId: String
+  name: String!
 }
 
-enum TransactionTypeEnum {
-  BUY
-  SELL
+type CreatePortfolioPayload {
+  clientMutationId: String
+  errors: [String!]!
+  portfolio: Portfolio
 }
-`, BuiltIn: false},
+
+input AddAssetToPortfolioInput {
+  clientMutationId: String
+  name: String!
+  portfolioId: ID!
+  symbol: String!
+}
+
+type AddAssetToPortfolioPayload {
+  asset: PortfolioAsset
+  clientMutationId: String
+  errors: [String!]!
+}
+
+input AddPortfolioTransactionInput {
+  clientMutationId: String
+  fee: String!
+  notes: String
+  portfolioAssetId: ID!
+  price: String!
+  quantity: String!
+  transactionType: TransactionTypeEnum!
+}
+
+type AddPortfolioTransactionPayload {
+  clientMutationId: String
+  errors: [String!]!
+  transaction: PortfolioTransaction
+}`, BuiltIn: false},
 }
 var parsedSchema = gqlparser.MustLoadSchema(sources...)
 
