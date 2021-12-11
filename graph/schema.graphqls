@@ -49,18 +49,15 @@ type PortfolioTransaction {
 }
 
 input CreatePortfolioInput {
-  clientMutationId: String
   name: String!
 }
 
 type CreatePortfolioPayload {
-  clientMutationId: String
   errors: [String!]!
   portfolio: Portfolio
 }
 
 input AddAssetToPortfolioInput {
-  clientMutationId: String
   name: String!
   portfolioId: ID!
   symbol: String!
@@ -68,12 +65,10 @@ input AddAssetToPortfolioInput {
 
 type AddAssetToPortfolioPayload {
   asset: PortfolioAsset
-  clientMutationId: String
   errors: [String!]!
 }
 
 input AddPortfolioTransactionInput {
-  clientMutationId: String
   fee: String!
   notes: String
   portfolioAssetId: ID!
@@ -83,7 +78,6 @@ input AddPortfolioTransactionInput {
 }
 
 type AddPortfolioTransactionPayload {
-  clientMutationId: String
   errors: [String!]!
   transaction: PortfolioTransaction
 }

@@ -9,20 +9,17 @@ import (
 )
 
 type AddAssetToPortfolioInput struct {
-	ClientMutationID *string `json:"clientMutationId"`
-	Name             string  `json:"name"`
-	PortfolioID      string  `json:"portfolioId"`
-	Symbol           string  `json:"symbol"`
+	Name        string `json:"name"`
+	PortfolioID string `json:"portfolioId"`
+	Symbol      string `json:"symbol"`
 }
 
 type AddAssetToPortfolioPayload struct {
-	Asset            *PortfolioAsset `json:"asset"`
-	ClientMutationID *string         `json:"clientMutationId"`
-	Errors           []string        `json:"errors"`
+	Asset  *PortfolioAsset `json:"asset"`
+	Errors []string        `json:"errors"`
 }
 
 type AddPortfolioTransactionInput struct {
-	ClientMutationID *string             `json:"clientMutationId"`
 	Fee              string              `json:"fee"`
 	Notes            *string             `json:"notes"`
 	PortfolioAssetID string              `json:"portfolioAssetId"`
@@ -32,20 +29,17 @@ type AddPortfolioTransactionInput struct {
 }
 
 type AddPortfolioTransactionPayload struct {
-	ClientMutationID *string               `json:"clientMutationId"`
-	Errors           []string              `json:"errors"`
-	Transaction      *PortfolioTransaction `json:"transaction"`
+	Errors      []string              `json:"errors"`
+	Transaction *PortfolioTransaction `json:"transaction"`
 }
 
 type CreatePortfolioInput struct {
-	ClientMutationID *string `json:"clientMutationId"`
-	Name             string  `json:"name"`
+	Name string `json:"name"`
 }
 
 type CreatePortfolioPayload struct {
-	ClientMutationID *string    `json:"clientMutationId"`
-	Errors           []string   `json:"errors"`
-	Portfolio        *Portfolio `json:"portfolio"`
+	Errors    []string   `json:"errors"`
+	Portfolio *Portfolio `json:"portfolio"`
 }
 
 type Portfolio struct {

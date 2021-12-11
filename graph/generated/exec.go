@@ -44,21 +44,18 @@ type DirectiveRoot struct {
 
 type ComplexityRoot struct {
 	AddAssetToPortfolioPayload struct {
-		Asset            func(childComplexity int) int
-		ClientMutationID func(childComplexity int) int
-		Errors           func(childComplexity int) int
+		Asset  func(childComplexity int) int
+		Errors func(childComplexity int) int
 	}
 
 	AddPortfolioTransactionPayload struct {
-		ClientMutationID func(childComplexity int) int
-		Errors           func(childComplexity int) int
-		Transaction      func(childComplexity int) int
+		Errors      func(childComplexity int) int
+		Transaction func(childComplexity int) int
 	}
 
 	CreatePortfolioPayload struct {
-		ClientMutationID func(childComplexity int) int
-		Errors           func(childComplexity int) int
-		Portfolio        func(childComplexity int) int
+		Errors    func(childComplexity int) int
+		Portfolio func(childComplexity int) int
 	}
 
 	Mutation struct {
@@ -131,26 +128,12 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.AddAssetToPortfolioPayload.Asset(childComplexity), true
 
-	case "AddAssetToPortfolioPayload.clientMutationId":
-		if e.complexity.AddAssetToPortfolioPayload.ClientMutationID == nil {
-			break
-		}
-
-		return e.complexity.AddAssetToPortfolioPayload.ClientMutationID(childComplexity), true
-
 	case "AddAssetToPortfolioPayload.errors":
 		if e.complexity.AddAssetToPortfolioPayload.Errors == nil {
 			break
 		}
 
 		return e.complexity.AddAssetToPortfolioPayload.Errors(childComplexity), true
-
-	case "AddPortfolioTransactionPayload.clientMutationId":
-		if e.complexity.AddPortfolioTransactionPayload.ClientMutationID == nil {
-			break
-		}
-
-		return e.complexity.AddPortfolioTransactionPayload.ClientMutationID(childComplexity), true
 
 	case "AddPortfolioTransactionPayload.errors":
 		if e.complexity.AddPortfolioTransactionPayload.Errors == nil {
@@ -165,13 +148,6 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.AddPortfolioTransactionPayload.Transaction(childComplexity), true
-
-	case "CreatePortfolioPayload.clientMutationId":
-		if e.complexity.CreatePortfolioPayload.ClientMutationID == nil {
-			break
-		}
-
-		return e.complexity.CreatePortfolioPayload.ClientMutationID(childComplexity), true
 
 	case "CreatePortfolioPayload.errors":
 		if e.complexity.CreatePortfolioPayload.Errors == nil {
@@ -476,18 +452,15 @@ type PortfolioTransaction {
 }
 
 input CreatePortfolioInput {
-  clientMutationId: String
   name: String!
 }
 
 type CreatePortfolioPayload {
-  clientMutationId: String
   errors: [String!]!
   portfolio: Portfolio
 }
 
 input AddAssetToPortfolioInput {
-  clientMutationId: String
   name: String!
   portfolioId: ID!
   symbol: String!
@@ -495,12 +468,10 @@ input AddAssetToPortfolioInput {
 
 type AddAssetToPortfolioPayload {
   asset: PortfolioAsset
-  clientMutationId: String
   errors: [String!]!
 }
 
 input AddPortfolioTransactionInput {
-  clientMutationId: String
   fee: String!
   notes: String
   portfolioAssetId: ID!
@@ -510,7 +481,6 @@ input AddPortfolioTransactionInput {
 }
 
 type AddPortfolioTransactionPayload {
-  clientMutationId: String
   errors: [String!]!
   transaction: PortfolioTransaction
 }`, BuiltIn: false},
@@ -666,38 +636,6 @@ func (ec *executionContext) _AddAssetToPortfolioPayload_asset(ctx context.Contex
 	return ec.marshalOPortfolioAsset2ᚖgithubᚗcomᚋtareqanwarᚋprofitolioᚋgraphᚋmodelᚐPortfolioAsset(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) _AddAssetToPortfolioPayload_clientMutationId(ctx context.Context, field graphql.CollectedField, obj *model.AddAssetToPortfolioPayload) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:     "AddAssetToPortfolioPayload",
-		Field:      field,
-		Args:       nil,
-		IsMethod:   false,
-		IsResolver: false,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.ClientMutationID, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(*string)
-	fc.Result = res
-	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
-}
-
 func (ec *executionContext) _AddAssetToPortfolioPayload_errors(ctx context.Context, field graphql.CollectedField, obj *model.AddAssetToPortfolioPayload) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
@@ -731,38 +669,6 @@ func (ec *executionContext) _AddAssetToPortfolioPayload_errors(ctx context.Conte
 	res := resTmp.([]string)
 	fc.Result = res
 	return ec.marshalNString2ᚕstringᚄ(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) _AddPortfolioTransactionPayload_clientMutationId(ctx context.Context, field graphql.CollectedField, obj *model.AddPortfolioTransactionPayload) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:     "AddPortfolioTransactionPayload",
-		Field:      field,
-		Args:       nil,
-		IsMethod:   false,
-		IsResolver: false,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.ClientMutationID, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(*string)
-	fc.Result = res
-	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _AddPortfolioTransactionPayload_errors(ctx context.Context, field graphql.CollectedField, obj *model.AddPortfolioTransactionPayload) (ret graphql.Marshaler) {
@@ -830,38 +736,6 @@ func (ec *executionContext) _AddPortfolioTransactionPayload_transaction(ctx cont
 	res := resTmp.(*model.PortfolioTransaction)
 	fc.Result = res
 	return ec.marshalOPortfolioTransaction2ᚖgithubᚗcomᚋtareqanwarᚋprofitolioᚋgraphᚋmodelᚐPortfolioTransaction(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) _CreatePortfolioPayload_clientMutationId(ctx context.Context, field graphql.CollectedField, obj *model.CreatePortfolioPayload) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:     "CreatePortfolioPayload",
-		Field:      field,
-		Args:       nil,
-		IsMethod:   false,
-		IsResolver: false,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.ClientMutationID, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(*string)
-	fc.Result = res
-	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _CreatePortfolioPayload_errors(ctx context.Context, field graphql.CollectedField, obj *model.CreatePortfolioPayload) (ret graphql.Marshaler) {
@@ -2916,14 +2790,6 @@ func (ec *executionContext) unmarshalInputAddAssetToPortfolioInput(ctx context.C
 
 	for k, v := range asMap {
 		switch k {
-		case "clientMutationId":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("clientMutationId"))
-			it.ClientMutationID, err = ec.unmarshalOString2ᚖstring(ctx, v)
-			if err != nil {
-				return it, err
-			}
 		case "name":
 			var err error
 
@@ -2963,14 +2829,6 @@ func (ec *executionContext) unmarshalInputAddPortfolioTransactionInput(ctx conte
 
 	for k, v := range asMap {
 		switch k {
-		case "clientMutationId":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("clientMutationId"))
-			it.ClientMutationID, err = ec.unmarshalOString2ᚖstring(ctx, v)
-			if err != nil {
-				return it, err
-			}
 		case "fee":
 			var err error
 
@@ -3034,14 +2892,6 @@ func (ec *executionContext) unmarshalInputCreatePortfolioInput(ctx context.Conte
 
 	for k, v := range asMap {
 		switch k {
-		case "clientMutationId":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("clientMutationId"))
-			it.ClientMutationID, err = ec.unmarshalOString2ᚖstring(ctx, v)
-			if err != nil {
-				return it, err
-			}
 		case "name":
 			var err error
 
@@ -3077,8 +2927,6 @@ func (ec *executionContext) _AddAssetToPortfolioPayload(ctx context.Context, sel
 			out.Values[i] = graphql.MarshalString("AddAssetToPortfolioPayload")
 		case "asset":
 			out.Values[i] = ec._AddAssetToPortfolioPayload_asset(ctx, field, obj)
-		case "clientMutationId":
-			out.Values[i] = ec._AddAssetToPortfolioPayload_clientMutationId(ctx, field, obj)
 		case "errors":
 			out.Values[i] = ec._AddAssetToPortfolioPayload_errors(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
@@ -3106,8 +2954,6 @@ func (ec *executionContext) _AddPortfolioTransactionPayload(ctx context.Context,
 		switch field.Name {
 		case "__typename":
 			out.Values[i] = graphql.MarshalString("AddPortfolioTransactionPayload")
-		case "clientMutationId":
-			out.Values[i] = ec._AddPortfolioTransactionPayload_clientMutationId(ctx, field, obj)
 		case "errors":
 			out.Values[i] = ec._AddPortfolioTransactionPayload_errors(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
@@ -3137,8 +2983,6 @@ func (ec *executionContext) _CreatePortfolioPayload(ctx context.Context, sel ast
 		switch field.Name {
 		case "__typename":
 			out.Values[i] = graphql.MarshalString("CreatePortfolioPayload")
-		case "clientMutationId":
-			out.Values[i] = ec._CreatePortfolioPayload_clientMutationId(ctx, field, obj)
 		case "errors":
 			out.Values[i] = ec._CreatePortfolioPayload_errors(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
