@@ -11,11 +11,23 @@ import (
 	"github.com/tareqanwar/profitolio/graph/model"
 )
 
-func (r *mutationResolver) CreateTodo(ctx context.Context, input model.NewTodo) (*model.Todo, error) {
+func (r *mutationResolver) AddAssetToPortfolio(ctx context.Context, input model.AddAssetToPortfolioInput) (*model.AddAssetToPortfolioPayload, error) {
 	panic(fmt.Errorf("not implemented"))
 }
 
-func (r *queryResolver) Todos(ctx context.Context) ([]*model.Todo, error) {
+func (r *mutationResolver) AddPortfolioTransaction(ctx context.Context, input model.AddPortfolioTransactionInput) (*model.AddPortfolioTransactionPayload, error) {
+	panic(fmt.Errorf("not implemented"))
+}
+
+func (r *mutationResolver) CreatePortfolio(ctx context.Context, input model.CreatePortfolioInput) (*model.CreatePortfolioPayload, error) {
+	panic(fmt.Errorf("not implemented"))
+}
+
+func (r *queryResolver) FetchPortfolio(ctx context.Context, id string) (*model.Portfolio, error) {
+	panic(fmt.Errorf("not implemented"))
+}
+
+func (r *queryResolver) FetchPortfolios(ctx context.Context) ([]*model.Portfolio, error) {
 	panic(fmt.Errorf("not implemented"))
 }
 
